@@ -1,0 +1,61 @@
+name: 'Terraform'
+
+on:
+  workflow_dispatch:
+   inputs:
+      working_dir:
+        description: 'Path of working directory' 
+        required: true
+        type: choice
+        options: 
+        - ./
+        - ./adf
+        
+
+
+#For Az login
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+
+jobs:
+  tf_workflow:
+    runs-on: ubuntu-latest
+    steps:
+
+   #For Cloning the Repo
+    - name: checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Checkout Terraform repository
+      uses: actions/checkout@v2
+      with:
+        repository: ambikaawari23/storage_account_terraform
+        path: storage_account_terraform
+
+ 
+#Install Terraform
+    - uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.1.7
+
+#Verify the Installation
+    - name: get-tf-version
+      run: |
+        terraform --version
+
+    - run: terraform init
+      working-directory: ${{ inputs.working_dir }}
+
+    - run: terraform validate
+      working-directory: ${{ inputs.working_dir }}
+
+#Terraform Sub commnads
+    - run: terraform plan -out tfplan
+      working-directory: ${{ inputs.working_dir }}
+  
+    - run: terraform apply -auto-approve
+      working-directory: ${{ inputs.working_dir }}
