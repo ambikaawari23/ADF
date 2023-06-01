@@ -1,0 +1,12 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "value": "adf-demo-dev-eastus-001"
+        },
+        "LS_AKV_Storage_Demo_properties_typeProperties_baseUrl": {
+            "value": "https://kv-demo-dev-eastus-001.vault.azure.net/"
+        }
+    }
+}
