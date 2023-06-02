@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        adfVersion: [v2, v3]
+        adfenv: [dev, qa, uat, prod]
 
     steps:
       - name: Checkout repository
@@ -27,11 +27,11 @@ jobs:
         run: |
           az config set extension.use_dynamic_install=yes_without_prompt
           az group create --name aargadfmatrix --location 'East US'
-          az datafactory create --name aamatrixadf --resource-group aargadfmatrix --location 'East US' 
+          az datafactory create --name aamatrixadf-${{ matrix.adfenv }} --resource-group aargadfmatrix --location 'East US' 
 
  
       - name: Display ADF Information
         run: |
-          echo "ADF Version: ${{ matrix.adfVersion }}"
+          echo "ADF Version: ${{ matrix.adfenv }}"
           echo "ADF Name: ${{ steps.create-adf.outputs.name }}"
           echo "ADF Resource Group: ${{ steps.create-adf.outputs.resourceGroupName }}"
