@@ -25,6 +25,7 @@ jobs:
       - name: Create ADF
         id: create-adf
         run: |
+          az config set extension.use_dynamic_install=yes_without_prompt
           az group create --name aargadfmatrix --location 'East US'
           az datafactory create --name aamatrixadf --resource-group aargadfmatrix --location 'East US' --version ${{ matrix.adfVersion }}
 
