@@ -16,14 +16,26 @@ variable "environment" {
   default     = ["dev", "qa", "uat", "prod"]
 }
   
+  data "azurerm_client_config" "current" {
+}
+locals {
+  strengths = {
+   "adf01" = "aa_adf_dev"
+   "adf02" = "aa_adf_qa"
+   "adf03"= "aa_adf_uat"
+   "adf04" ="aa_adf_prod"
+   
+  }
+}
+  
 resource "azurerm_resource_group" "rg" {
   name     = "ADF-AA"
   location = "West Europe"
 }
   
 resource "azurerm_data_factory" "example" {
-  for_each            = "aa_adf_23_"(var.environment)
-  name                = each.value
+  for_each = local.strengths
+  name  = each.value
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
