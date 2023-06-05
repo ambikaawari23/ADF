@@ -2,11 +2,14 @@ data "azurerm_client_config" "current" {
 }
 locals {
   strengths = {
-   "adf01" = "adf124"
-   "adf02" = "adf12401"
+   "env1" = "dev"
+   "env2" = "qa"
+   "env3" = "uat"
+   "env4" = "pro"
+  
   }
 }
-variable "environment" {}
+variable "matrix.adfenv" {}
 
 resource "azurerm_resource_group" "rg" {
   name     = "ADF-AA"
@@ -14,8 +17,9 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_data_factory" "adfaa" {
-#   for_each            = local.strengths
-  name                = "adf23${ var.environment }"
+#   for_each = local.strengths
+#   name  = each.value
+  name = "adf23-${ var.matrix.adfenv }"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -23,7 +27,7 @@ resource "azurerm_data_factory" "adfaa" {
     type = "SystemAssigned"
   }
   dynamic "github_configuration" {
-    for_each = var.environment == "dev" ? [1] : []
+    for_each = var.matrix.adfenv == "dev" ? [1] : []
     content {
       account_name     = "Ambika-Awari"
       branch_name      = "main"
