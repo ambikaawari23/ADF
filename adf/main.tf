@@ -30,3 +30,4 @@ resource "azurerm_data_factory" "adfaa" {
       root_folder      = "/"
     }
   }
+}
