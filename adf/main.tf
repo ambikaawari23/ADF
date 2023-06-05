@@ -9,7 +9,7 @@ terraform {
 
 provider "azurerm" {
   features {}
-
+}
 variable "environment" {
   description = "The environments in which the Azure Data Factory is being deployed."
   type        = list(string)
