@@ -2,7 +2,7 @@ name: ADF Build
 on:
   push:
     branches:
-      - main
+      - none
       
 jobs:
   build:
