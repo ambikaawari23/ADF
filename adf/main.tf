@@ -9,7 +9,15 @@ locals {
   
   }
 }
-variable "matrix.adfenv" {}
+variable "env" {
+  type = tomap(string)
+  tomap({
+      env1 = "dev"
+      env2 = "qa"
+      env3 =  "uat"
+      env4 =  "pro"
+})
+}
 
 resource "azurerm_resource_group" "rg" {
   name     = "ADF-AA"
@@ -17,9 +25,9 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_data_factory" "adfaa" {
-#   for_each = local.strengths
-#   name  = each.value
-  name = "adf23-${ var.matrix.adfenv }"
+  for_each = local.strengths
+  name  = each.value
+#   name = "adf23-${ var.matrix.adfenv }"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -27,7 +35,7 @@ resource "azurerm_data_factory" "adfaa" {
     type = "SystemAssigned"
   }
   dynamic "github_configuration" {
-    for_each = var.matrix.adfenv == "dev" ? [1] : []
+    for_each = var.env == "dev" ? [1] : []
     content {
       account_name     = "Ambika-Awari"
       branch_name      = "main"
