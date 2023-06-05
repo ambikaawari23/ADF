@@ -32,9 +32,9 @@ locals {
    "adf01" = "aaadfdev"
    "adf02" = "aaadfqa"
    "adf03"= "aaadfuat"
-   "adf04" ="aaadfprod"
-   
+   "adf04" ="aaadfprod"   
   }
+  is_dev = var.environment == "dev"
 }
   
 resource "azurerm_resource_group" "rg" {
@@ -52,7 +52,7 @@ resource "azurerm_data_factory" "example" {
     type = "SystemAssigned"
   }
   dynamic "github_configuration" {
-    for_each = each.value == "dev" ? [1] : []
+    for_each = local.is_dev ? [1] : []
     content {
       account_name     = "Ambika-Awari"
       branch_name      = "main"
