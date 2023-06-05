@@ -21,8 +21,8 @@ provider "azurerm" {
 
 variable "environment" {
   description = "The environments in which the Azure Data Factory is being deployed."
-  type        = list(string)
-  default     = ["dev", "qa", "uat", "prod"]
+  type        = string
+  default     = "dev"
 }
   
   data "azurerm_client_config" "current" {
