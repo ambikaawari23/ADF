@@ -5,11 +5,20 @@ terraform {
       version = "=3.18.0"
     }
   }
+
+ backend "azurerm" {
+    resource_group_name  = "storage001"
+    storage_account_name = "stg22111"
+    container_name       = "sst"
+    key                  = "terraform.tfstate"
+  }
 }
 
+# Configure the Microsoft Azure Provider
 provider "azurerm" {
   features {}
 }
+
 variable "environment" {
   description = "The environments in which the Azure Data Factory is being deployed."
   type        = list(string)
