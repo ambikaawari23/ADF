@@ -7,13 +7,13 @@ locals {
   }
 }
 resource "azurerm_resource_group" "rg" {
-  name     = "ADF-0124"
+  name     = "ADF-AA"
   location = "West Europe"
 }
 
 resource "azurerm_data_factory" "adfaa" {
 #   for_each            = local.strengths
-  name                = "adf23-"${{ var.environment }}
+  name                = "adf23${{ var.environment }}
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
