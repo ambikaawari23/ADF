@@ -20,10 +20,10 @@ variable "environment" {
 }
 locals {
   strengths = {
-   "adf01" = "aa_adf_dev"
-   "adf02" = "aa_adf_qa"
-   "adf03"= "aa_adf_uat"
-   "adf04" ="aa_adf_prod"
+   "adf01" = "aaadfdev"
+   "adf02" = "aaadfqa"
+   "adf03"= "aaadfuat"
+   "adf04" ="aaadfprod"
    
   }
 }
