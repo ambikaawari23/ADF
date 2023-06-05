@@ -46,9 +46,9 @@ resource "azurerm_data_factory" "example" {
     for_each = each.value == "dev" ? [1] : []
     content {
       account_name     = "Ambika-Awari"
-      branch_name      = "aa"
-      git_url          = "https://github.com/Ambika-Awari/adf"
-      repository_name  = "adf"
+      branch_name      = "main"
+      git_url          = "https://github.com/Ambika-Awari/adf_aa"
+      repository_name  = "adf_aa"
       root_folder      = "/"
     }
   }
