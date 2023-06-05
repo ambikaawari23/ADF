@@ -6,6 +6,8 @@ locals {
    "adf02" = "adf12401"
   }
 }
+variable "environment" {}
+
 resource "azurerm_resource_group" "rg" {
   name     = "ADF-AA"
   location = "West Europe"
