@@ -22,8 +22,8 @@ resource "azurerm_resource_group" "rg" {
 }
   
 resource "azurerm_data_factory" "example" {
-  for_each            = toset(var.environment)
-  name                = "aa_adf_23_"each.value
+  for_each            = "aa_adf_23_"(var.environment)
+  name                = each.value
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
