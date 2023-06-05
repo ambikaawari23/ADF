@@ -1,33 +1,29 @@
-data "azurerm_client_config" "current" {
-}
-locals {
-  strengths = {
-   "env1" = "dev"
-   "env2" = "qa"
-   "env3" = "uat"
-   "env4" = "pro"
-  
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=3.18.0"
+    }
   }
 }
-variable "env" {
-  type = tomap(string)
-  tomap({
-      env1 = "dev"
-      env2 = "qa"
-      env3 =  "uat"
-      env4 =  "pro"
-})
-}
 
+provider "azurerm" {
+  features {}
+
+variable "environment" {
+  description = "The environments in which the Azure Data Factory is being deployed."
+  type        = list(string)
+  default     = ["dev", "qa", "uat", "prod"]
+}
+  
 resource "azurerm_resource_group" "rg" {
   name     = "ADF-AA"
   location = "West Europe"
 }
-
-resource "azurerm_data_factory" "adfaa" {
-  for_each = local.strengths
-  name  = each.value
-#   name = "adf23-${ var.matrix.adfenv }"
+  
+resource "azurerm_data_factory" "example" {
+  for_each            = toset(var.environment)
+  name                = "aa_adf_23_"each.value
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -35,13 +31,14 @@ resource "azurerm_data_factory" "adfaa" {
     type = "SystemAssigned"
   }
   dynamic "github_configuration" {
-    for_each = var.env == "dev" ? [1] : []
+    for_each = each.value == "dev" ? [1] : []
     content {
       account_name     = "Ambika-Awari"
-      branch_name      = "main"
+      branch_name      = "aa"
       git_url          = "https://github.com/Ambika-Awari/adf"
       repository_name  = "adf"
       root_folder      = "/"
     }
   }
 }
+
