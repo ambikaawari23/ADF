@@ -6,9 +6,8 @@ on:
       working_dir:
         description: 'Path of working directory' 
         required: true
-        type: choice
-        options: 
-        - ./
+        default: 'World'
+
 
 jobs:
   deploy:
